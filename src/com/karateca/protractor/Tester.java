@@ -8,14 +8,12 @@ import java.net.URLEncoder;
 
 public class Tester {
 
-  private static String baseUrl = "http://localhost:13000/testSelector?locators=";
+  private static final String baseUrl = "http://localhost:13000/testSelector?locators=";
 
   public static void testLocator(String locator) throws Exception {
-    String loc = "by.model('yourName')";
-
-    String queryString = String.format("{\"popupInput\":\"%s\"}", loc);
-    String encoded = URLEncoder.encode(queryString, "UTF-8");
-    String url = baseUrl + encoded;
+    String queryString = URLEncoder.encode(
+        String.format("{\"popupInput\":\"%s\"}", locator), "UTF-8");
+    String url = baseUrl + queryString;
     URLConnection connection = new URL(url).openConnection();
     BufferedReader in = new BufferedReader(
         new InputStreamReader(connection.getInputStream())
