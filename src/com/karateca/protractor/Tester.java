@@ -10,20 +10,29 @@ public class Tester {
 
   private static final String baseUrl = "http://localhost:13000/testSelector?locators=";
 
-  public static void testLocator(String locator) throws Exception {
-    String queryString = URLEncoder.encode(
-        String.format("{\"popupInput\":\"%s\"}", locator), "UTF-8");
-    String url = baseUrl + queryString;
-    URLConnection connection = new URL(url).openConnection();
-    BufferedReader in = new BufferedReader(
-        new InputStreamReader(connection.getInputStream())
-    );
-    String inputLine;
+  public static String testLocator(String locator) {
+    StringBuilder sb = new StringBuilder();
 
-    while ((inputLine = in.readLine()) != null) {
-      System.out.println(inputLine);
+    try {
+      String queryString = URLEncoder.encode(
+          String.format("{\"popupInput\":\"%s\"}", locator), "UTF-8");
+      String url = baseUrl + queryString;
+      URLConnection connection = new URL(url).openConnection();
+      BufferedReader in = new BufferedReader(
+          new InputStreamReader(connection.getInputStream())
+      );
+      String inputLine;
+
+      while ((inputLine = in.readLine()) != null) {
+        sb.append(inputLine);
+        System.out.println(inputLine);
+      }
+      in.close();
+    } catch (Exception e) {
+      sb.append("Error testing locator")
+          .append(e.getMessage());
     }
 
-    in.close();
+    return sb.toString();
   }
 }
