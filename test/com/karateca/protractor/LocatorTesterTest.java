@@ -14,7 +14,15 @@ public class LocatorTesterTest extends TestCase {
     }).testLocator("");
   }
 
-  public void testCountResultValue() {
+  public void testResultWithCountValue() {
+    String response = "{\"results\":{\"element.all(by.model('yourName')).count()\":1}}";
+    Pair<String, String> pair = testElementExplorerResponse(response);
+
+    assertEquals("element.all(by.model('yourName')).count()", pair.first);
+    assertEquals("1", pair.second);
+  }
+
+  public void testEmptyStringResult() {
     String response = "{\"results\":{\"element(by.model('yourName'))." +
         "getAttribute('value')\":\"\"}}";
     Pair<String, String> pair = testElementExplorerResponse(response);
