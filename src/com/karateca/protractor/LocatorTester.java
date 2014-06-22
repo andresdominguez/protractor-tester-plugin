@@ -1,5 +1,7 @@
 package com.karateca.protractor;
 
+import com.intellij.openapi.util.Pair;
+
 public class LocatorTester {
   final JsonReader jsonReader;
 
@@ -7,7 +9,8 @@ public class LocatorTester {
     this.jsonReader = jsonReader;
   }
 
-  public String testLocator(String locator) {
+  public Pair<String, String> testLocator(String locator) {
+//    return new Pair<String, String>();
     return null;
   }
 }
