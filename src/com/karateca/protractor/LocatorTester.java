@@ -19,10 +19,10 @@ public class LocatorTester {
 
     // The key / value looks like this:
     // "element.all(by.model('yourName')).count()":1
-    String keyValuePattern = "(\")(.+)(\":\"?)(.+)(\"?)";
+    String keyValuePattern = "(\")(.+)(\":)(\"?([^\"]*)\"?)";
     return new Pair<String, String>(
         keyAndValue.replaceAll(keyValuePattern, "$2"),
-        keyAndValue.replaceAll(keyValuePattern, "$4")
+        keyAndValue.replaceAll(keyValuePattern, "$5")
     );
   }
 }
