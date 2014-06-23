@@ -1,5 +1,6 @@
 package com.karateca.protractor;
 
+import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
@@ -19,7 +20,10 @@ public class TestLocator extends AnAction {
     PsiFile file = e.getData(LangDataKeys.PSI_FILE);
 
     // Need the following objects.
-    return editor != null && file != null && e.getProject() != null;
+    return editor != null &&
+        file != null
+        && e.getProject() != null &&
+        editor.getSelectionModel().hasSelection();
   }
 
   public void actionPerformed(AnActionEvent actionEvent) {
@@ -35,7 +39,18 @@ public class TestLocator extends AnAction {
     );
 
     String selectedText = editor.getSelectionModel().getSelectedText();
+    if (selectedText == null) {
+      HintManager
+          .getInstance()
+          .showErrorHint(editor, "Selection is empty");
+      return;
+    }
     Pair<String, String> pair = tester.testLocator(selectedText);
-    System.out.println("Hey" + pair);
+
+    String hint = selectedText.equals(pair.first) ?
+        pair.second :
+        String.format("%s: %s", pair.first, pair.second);
+
+    HintManager.getInstance().showErrorHint(editor, hint);
   }
 }
