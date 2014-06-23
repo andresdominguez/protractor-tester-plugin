@@ -4,6 +4,9 @@ import com.intellij.openapi.util.Pair;
 
 public class LocatorTester {
   final JsonReader jsonReader;
+  public static final String KEY_PATTERN = "\"?(.*?)\"?";
+  public static final String VALUE_PATTERN = "(^\\s*\"?)(.*?)(\\s*\"?$)";
+  public static final String RESULTS_PATTERN = "(\\{\"results\":\\s*\\{)(.+)(}})";
 
   public LocatorTester(JsonReader jsonReader) {
     this.jsonReader = jsonReader;
@@ -14,8 +17,7 @@ public class LocatorTester {
 
     // Parse the json string. It looks like this:
     // {"results":{"element.all(by.model('yourName')).count()":1}}
-    String resultsPattern = "(\\{\"results\":\\{)(.+)(\\}\\}$)";
-    String keyAndValue = json.replaceAll(resultsPattern, "$2");
+    String keyAndValue = json.replaceAll(RESULTS_PATTERN, "$2");
 
     // The key / value looks like this. Split at ":
     // "element.all(by.model('yourName')).count()":1
@@ -24,11 +26,12 @@ public class LocatorTester {
       return null;
     }
 
-    // Get the contents between quotes.
-    String quotesPattern = "\"?(.*?)\"?";
+    String keySubstring = keyAndValue.substring(0, i);
+    String valueSubstring = keyAndValue.substring(i + 1);
+
     return new Pair<String, String>(
-        keyAndValue.substring(0, i).replaceAll(quotesPattern, "$1"),
-        keyAndValue.substring(i + 1).replaceAll(quotesPattern, "$1")
+        keySubstring.replaceAll(KEY_PATTERN, "$1"),
+        valueSubstring.replaceAll(VALUE_PATTERN, "$2")
     );
   }
 }

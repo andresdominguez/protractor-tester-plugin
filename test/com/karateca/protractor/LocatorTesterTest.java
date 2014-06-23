@@ -30,4 +30,13 @@ public class LocatorTesterTest extends TestCase {
     assertEquals("element(by.model('yourName')).getAttribute('value')", pair.first);
     assertEquals("", pair.second);
   }
+
+  public void testResultIsWebElement(){
+    String response = "{\"results\": {\"element(by.model('yourName'))\": " +
+        "{\"locator_\": {}, \"parentElementFinder_\": null}}}";
+    Pair<String, String> pair = testElementExplorerResponse(response);
+
+    assertEquals("element(by.model('yourName'))", pair.first);
+    assertEquals("{\"locator_\": {}, \"parentElementFinder_\": null}", pair.second);
+  }
 }

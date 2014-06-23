@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.util.Pair;
 import com.intellij.psi.PsiFile;
 
 public class TestLocator extends AnAction {
@@ -28,7 +29,13 @@ public class TestLocator extends AnAction {
       return;
     }
 
-    String s = Tester.testLocator(editor.getSelectionModel().getSelectedText());
-    System.out.println("Hey" + s);
+    JsonReader reader = new ElementExplorerReader();
+    LocatorTester tester = new LocatorTester(
+        reader
+    );
+
+    String selectedText = editor.getSelectionModel().getSelectedText();
+    Pair<String, String> pair = tester.testLocator(selectedText);
+    System.out.println("Hey" + pair);
   }
 }
