@@ -9,7 +9,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.util.Pair;
 import com.intellij.psi.PsiFile;
 
-public class TestLocator extends AnAction {
+public class TestLocatorAction extends AnAction {
   @Override
   public void update(AnActionEvent e) {
     e.getPresentation().setEnabled(canEnableAction(e));
@@ -47,9 +47,8 @@ public class TestLocator extends AnAction {
     }
     Pair<String, String> pair = tester.testLocator(selectedText);
 
-    String hint = selectedText.equals(pair.first) ?
-        pair.second :
-        String.format("%s: %s", pair.first, pair.second);
+    String hint = pair == null ?
+        "No response" : String.format("%s", pair.second);
 
     HintManager.getInstance().showErrorHint(editor, hint);
   }

@@ -34,11 +34,11 @@
 
   <actions>
     <!-- Add your actions here -->
-    <action id="TestLocator" class="com.karateca.protractor.TestLocator"
+    <action id="TestLocator" class="com.karateca.protractor.TestLocatorAction"
             text="Test selected locator"
             description="Test the selected locator with the element explorer"
             icon="/protractorIcon.png">
-      <!--<add-to-group group-id="ToolsMenu" anchor="first"/>-->
+      <keyboard-shortcut keymap="$default" first-keystroke="shift meta P"/>
       <add-to-group group-id="EditorPopupMenu"/>
     </action>
   </actions>
