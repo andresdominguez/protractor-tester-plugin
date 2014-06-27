@@ -34,10 +34,13 @@
 
   <actions>
     <!-- Add your actions here -->
-      <action id="TestLocator" class="com.karateca.protractor.TestLocator" text="Test selected locator"
-              description="Test the selected locator with the element explorer">
-          <add-to-group group-id="ToolsMenu" anchor="first"/>
-      </action>
+    <action id="TestLocator" class="com.karateca.protractor.TestLocator"
+            text="Test selected locator"
+            description="Test the selected locator with the element explorer"
+            icon="/protractorIcon.png">
+      <!--<add-to-group group-id="ToolsMenu" anchor="first"/>-->
+      <add-to-group group-id="EditorPopupMenu"/>
+    </action>
   </actions>
 
 </idea-plugin>
