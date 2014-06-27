@@ -9,6 +9,9 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.util.Pair;
 import com.intellij.psi.PsiFile;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 public class TestLocatorAction extends AnAction {
   @Override
   public void update(AnActionEvent e) {
@@ -28,15 +31,25 @@ public class TestLocatorAction extends AnAction {
 
   public void actionPerformed(AnActionEvent actionEvent) {
     // No selection? Bail out.
-    Editor editor = actionEvent.getData(PlatformDataKeys.EDITOR);
+    final Editor editor = actionEvent.getData(PlatformDataKeys.EDITOR);
     if (editor == null || !editor.getSelectionModel().hasSelection()) {
       return;
     }
 
-    JsonReader reader = new ElementExplorerReader();
-    LocatorTester tester = new LocatorTester(
-        reader
+    final AsyncLocatorTester tester = new AsyncLocatorTester(
+        new ElementExplorerReader()
     );
+
+    tester.addResultsReadyListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent changeEvent) {
+        Pair<String, String> pair = (Pair<String, String>) changeEvent.getSource();
+        String hint = pair == null ?
+            "No response" : String.format("%s", pair.second);
+
+        HintManager.getInstance().showErrorHint(editor, hint);
+      }
+    });
 
     String selectedText = editor.getSelectionModel().getSelectedText();
     if (selectedText == null) {
@@ -45,11 +58,7 @@ public class TestLocatorAction extends AnAction {
           .showErrorHint(editor, "Selection is empty");
       return;
     }
-    Pair<String, String> pair = tester.testLocator(selectedText);
 
-    String hint = pair == null ?
-        "No response" : String.format("%s", pair.second);
-
-    HintManager.getInstance().showErrorHint(editor, hint);
+    tester.testLocator(selectedText);
   }
 }

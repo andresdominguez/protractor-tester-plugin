@@ -8,7 +8,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.util.List;
 
-public class AsyncLocatorTester extends SwingWorker<Pair<String, String>, String> {
+public class AsyncLocatorTester {
   final JsonReader jsonReader;
   public static final String KEY_PATTERN = "\"?(.*?)\"?";
   public static final String VALUE_PATTERN = "(^\\s*\"?)(.*?)(\\s*\"?$)";
@@ -62,15 +62,5 @@ public class AsyncLocatorTester extends SwingWorker<Pair<String, String>, String
         keySubstring.replaceAll(KEY_PATTERN, "$1"),
         valueSubstring.replaceAll(VALUE_PATTERN, "$2")
     );
-  }
-
-  @Override
-  protected Pair<String, String> doInBackground() throws Exception {
-    return null;
-  }
-
-  @Override
-  protected void process(List<String> strings) {
-    super.process(strings);
   }
 }
