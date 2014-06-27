@@ -6,17 +6,14 @@ import com.intellij.util.EventDispatcher;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.util.List;
 
 public class AsyncLocatorTester {
-  final JsonReader jsonReader;
-  public static final String KEY_PATTERN = "\"?(.*?)\"?";
-  public static final String VALUE_PATTERN = "(^\\s*\"?)(.*?)(\\s*\"?$)";
-  public static final String RESULTS_PATTERN = "(\\{\"results\":\\s*\\{)(.+)(}})";
-
+  private final JsonReader jsonReader;
+  private static final String KEY_PATTERN = "\"?(.*?)\"?";
+  private static final String VALUE_PATTERN = "(^\\s*\"?)(.*?)(\\s*\"?$)";
+  private static final String RESULTS_PATTERN = "(\\{\"results\":\\s*\\{)(.+)(}})";
   private final EventDispatcher<ChangeListener> myEventDispatcher =
       EventDispatcher.create(ChangeListener.class);
-
 
   public AsyncLocatorTester(JsonReader jsonReader) {
     this.jsonReader = jsonReader;
