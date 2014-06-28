@@ -6,6 +6,7 @@ import com.intellij.util.EventDispatcher;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.io.IOException;
 
 public class AsyncLocatorTester {
   private final JsonReader jsonReader;
@@ -39,7 +40,15 @@ public class AsyncLocatorTester {
   }
 
   private Pair<String, String> submitRequest(String locator) {
-    String json = jsonReader.read(locator);
+    String json;
+    try {
+      json = jsonReader.read(locator);
+    } catch (IOException e) {
+      return new Pair<String, String>(
+          null,
+          "Error testing locator: " + e.getMessage()
+      );
+    }
 
     // Parse the json string. It looks like this:
     // {"results":{"element.all(by.model('yourName')).count()":1}}
