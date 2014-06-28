@@ -43,9 +43,11 @@ public class TestLocatorAction extends AnAction {
     tester.addResultsReadyListener(new ChangeListener() {
       @Override
       public void stateChanged(ChangeEvent changeEvent) {
-        Pair<String, String> pair = (Pair<String, String>) changeEvent.getSource();
-        String hint = pair == null ?
-            "No response" : String.format("%s", pair.second);
+        String hint = "";
+        if (changeEvent.getSource() instanceof Pair) {
+          Pair pair = (Pair) changeEvent.getSource();
+          hint = String.format("%s", pair.second);
+        }
 
         HintManager.getInstance().showErrorHint(editor, hint);
       }
