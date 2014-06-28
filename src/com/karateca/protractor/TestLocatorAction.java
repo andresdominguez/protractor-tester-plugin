@@ -49,7 +49,7 @@ public class TestLocatorAction extends AnAction {
           hint = String.format("%s", pair.second);
         }
 
-        HintManager.getInstance().showErrorHint(editor, hint);
+        HintManager.getInstance().showInformationHint(editor, hint);
       }
     });
 
