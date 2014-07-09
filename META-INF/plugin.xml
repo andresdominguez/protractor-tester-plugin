@@ -1,12 +1,11 @@
 <idea-plugin version="2">
   <id>com.karateca.protractorTester</id>
-  <name>Test your locators using protractor's element exporer</name>
+  <name>Protractor tester</name>
   <version>1.0</version>
   <vendor email="code@karateca.com" url="http://www.andresdominguez.com">Andres Dominguez</vendor>
 
   <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
+    Test your locators using protractor's element explorer.
     ]]></description>
 
   <change-notes><![CDATA[
